@@ -1,0 +1,70 @@
+"use client";
+
+import type { ReactNode } from "react";
+import { toast } from "sonner";
+import { cn } from "@/lib/cn";
+
+export function Row({
+  label,
+  value,
+  href,
+  mono,
+  copyValue,
+  className,
+}: {
+  label: string;
+  value: ReactNode;
+  href?: string;
+  mono?: boolean;
+  copyValue?: string;
+  className?: string;
+}) {
+  const valCls = cn(mono && "font-mono", "text-foreground");
+
+  function handleCopy() {
+    if (!copyValue) return;
+    navigator.clipboard.writeText(copyValue).then(() => {
+      toast("Copied to clipboard");
+    });
+  }
+
+  return (
+    <div
+      className={cn(
+        "border-border flex items-center justify-between gap-2 border-t px-4 py-2.5 text-sm first:border-t-0",
+        className,
+      )}
+    >
+      <span className="text-muted-foreground shrink-0">{label}</span>
+      {href ? (
+        <a
+          href={href}
+          {...(href.startsWith("http") && {
+            target: "_blank",
+            rel: "noopener noreferrer",
+          })}
+          className={cn(
+            valCls,
+            "hover:text-foreground/70 truncate transition-colors duration-200",
+          )}
+        >
+          {value}
+        </a>
+      ) : copyValue ? (
+        <button
+          type="button"
+          onClick={handleCopy}
+          className={cn(
+            valCls,
+            "hover:text-foreground/70 cursor-pointer truncate transition-colors duration-200",
+          )}
+          title="Click to copy"
+        >
+          {value}
+        </button>
+      ) : (
+        <span className={cn(valCls, "truncate")}>{value}</span>
+      )}
+    </div>
+  );
+}

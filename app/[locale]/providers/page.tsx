@@ -1,0 +1,101 @@
+"use client";
+
+import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
+import { ProviderIcon } from "@/components/shared/provider-icon";
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
+import { PageContainer } from "@/components/ui/page-container";
+import { PageHeader } from "@/components/ui/page-header";
+import { cn } from "@/lib/cn";
+import { TYPE_LABELS } from "@/lib/constants";
+import { providers } from "@/lib/data";
+import { sortProviders } from "@/lib/sort";
+
+const SECTION_ORDER = ["direct", "cloud", "aggregator"] as const;
+
+const TYPE_BADGE_VARIANT: Record<string, "default" | "secondary" | "outline"> =
+  {
+    direct: "default",
+    cloud: "secondary",
+    aggregator: "outline",
+  };
+
+export default function ProvidersPage() {
+  const t = useTranslations("Providers");
+  const tc = useTranslations("Common");
+  const [compatOnly, setCompatOnly] = useState(false);
+
+  const filtered = compatOnly
+    ? providers.filter((p) => p.openai_compatible)
+    : providers;
+
+  const grouped = Object.groupBy(filtered, (p) => p.type ?? "direct");
+
+  return (
+    <PageContainer>
+      <PageHeader
+        title={t("title")}
+        count={providers.length}
+        sub={t("subtitle")}
+      />
+      <div className="mb-6">
+        <label className="flex items-center gap-2 text-sm">
+          <Checkbox
+            checked={compatOnly}
+            onCheckedChange={(val) => setCompatOnly(val as boolean)}
+          />
+          {t("openaiCompatible")}
+        </label>
+      </div>
+      <div className="space-y-8">
+        {SECTION_ORDER.map((type) => {
+          const list = grouped[type];
+          if (!list?.length) return null;
+          const sorted = sortProviders(list);
+
+          return (
+            <section key={type}>
+              <div className="mb-3 flex items-center gap-2">
+                <Badge variant={TYPE_BADGE_VARIANT[type]}>
+                  {TYPE_LABELS[type]}
+                </Badge>
+                <span className="text-muted-foreground text-xs">
+                  {list.length} {tc("providers")} ·{" "}
+                  {list.reduce((sum, p) => sum + p.models.length, 0)}{" "}
+                  {tc("models")}
+                </span>
+              </div>
+              <div className="bg-border ring-border grid grid-cols-1 gap-px overflow-hidden rounded-md ring-1 sm:grid-cols-2 lg:grid-cols-3">
+                {sorted.map((p) => {
+                  const empty = p.models.length === 0;
+                  return (
+                    <Link
+                      key={p.id}
+                      href={`/${p.id}`}
+                      className={cn(
+                        "bg-background hover:bg-accent flex items-center gap-3 px-4 py-3.5 transition-colors duration-200",
+                        empty && "opacity-50",
+                      )}
+                    >
+                      <ProviderIcon provider={p} size={16} />
+                      <div className="min-w-0 flex-1">
+                        <span className="text-foreground truncate text-sm">
+                          {p.name}
+                        </span>
+                      </div>
+                      <span className="text-muted-foreground shrink-0 font-mono text-xs tabular-nums">
+                        {p.models.length || "—"}
+                      </span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </section>
+          );
+        })}
+      </div>
+    </PageContainer>
+  );
+}
