@@ -26,9 +26,11 @@ export function ProviderIcon({
   const clean = sanitizeSvg(provider.icon);
   if (!clean) return null;
   const svg = clean.replace("<svg ", `<svg width="${size}" height="${size}" `);
+  // 彩色 SVG 有自己的 fill 色值，不需要外层着色；单色 SVG（fill="currentColor"）用前景色
+  const isMonochrome = clean.includes('fill="currentColor"') || !clean.includes('fill="#');
   return (
     <span
-      className="text-muted-foreground shrink-0"
+      className={`shrink-0 ${isMonochrome ? "text-foreground" : ""}`}
       dangerouslySetInnerHTML={{ __html: svg }}
     />
   );

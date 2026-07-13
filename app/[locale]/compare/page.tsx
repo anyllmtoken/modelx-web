@@ -37,6 +37,7 @@ export default async function ComparePage() {
         ...m,
         providerName: p?.name ?? m.provider,
         providerIcon: p?.icon,
+        providerType: p?.type,
         creatorName: creator?.name ?? m.created_by,
         creatorIcon: creator?.icon,
       };

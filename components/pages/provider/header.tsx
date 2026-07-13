@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
@@ -57,11 +58,12 @@ export async function ProviderDetailHeader({
             <Download size={16} />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
+            <DropdownMenuGroup>
             <DropdownMenuLabel>{tc("export")}</DropdownMenuLabel>
             <DropdownMenuItem
               render={
                 <a
-                  href={`https://api.ModelX.dev/v1/export?format=json&provider=${provider.id}`}
+                  href={`/api/export?format=json&provider=${provider.id}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 />
@@ -72,7 +74,7 @@ export async function ProviderDetailHeader({
             <DropdownMenuItem
               render={
                 <a
-                  href={`https://api.ModelX.dev/v1/export?format=csv&provider=${provider.id}`}
+                  href={`/api/export?format=csv&provider=${provider.id}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 />
@@ -80,6 +82,7 @@ export async function ProviderDetailHeader({
             >
               {tc("csv")}
             </DropdownMenuItem>
+            </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
         <ProviderLinks

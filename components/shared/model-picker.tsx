@@ -5,7 +5,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ProviderIcon } from "@/components/shared/provider-icon";
 import { cn } from "@/lib/cn";
 import { PROVIDER_TYPE_TIER } from "@/lib/constants";
-import { getProvider } from "@/lib/data";
 import { multiSearch } from "@/lib/search";
 
 interface PickerModel {
@@ -14,6 +13,7 @@ interface PickerModel {
   provider: string;
   providerName: string;
   providerIcon?: string;
+  providerType?: string;
 }
 
 function toIconProp(icon?: string) {
@@ -47,7 +47,7 @@ export function ModelPicker({
     ? multiSearch(models, query, {
         target: (m) => `${m.providerName} ${m.name} ${m.id}`,
         bonus: (m) =>
-          PROVIDER_TYPE_TIER[getProvider(m.provider)?.type ?? "direct"] ?? 0,
+          PROVIDER_TYPE_TIER[m.providerType ?? "direct"] ?? 0,
         limit: 30,
       })
     : [];

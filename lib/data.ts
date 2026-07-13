@@ -1,4 +1,4 @@
-import type { Model, ProviderWithModels } from "@modelx/data";
+import type { Model, ProviderWithModels, ChangeEntry } from "@modelx/data";
 import {
   allModels as _allModels,
   getModel as _getModel,
@@ -6,6 +6,7 @@ import {
   providers as _providers,
   getActiveModels,
   getAllProviders,
+  getChanges,
   getModelsByCreator,
   getModelsByFamily,
   getModelsByProvider,
@@ -13,6 +14,7 @@ import {
 import { normalizeModelId } from "./search";
 
 export type {
+  ChangeEntry,
   Model,
   ModelCapabilities,
   ModelData,
@@ -137,36 +139,4 @@ export function getModelWithInheritance(
   return enriched;
 }
 
-export interface ChangeEntry {
-  ts: string;
-  provider: string;
-  model: string;
-  action: "create" | "update" | "delete";
-  commit?: string;
-  changes?: Record<string, { from: unknown; to: unknown }>;
-}
-
-let _changes: ChangeEntry[] | null = null;
-
-export function getChanges(): ChangeEntry[] {
-  if (_changes) return _changes;
-  try {
-    const fs = require("node:fs");
-    const path = require("node:path");
-    const filePath = path.resolve(
-      process.cwd(),
-      "../../packages/data/changes/changes.jsonl",
-    );
-    const content = fs.readFileSync(filePath, "utf-8");
-    const entries: ChangeEntry[] = content
-      .trim()
-      .split("\n")
-      .filter(Boolean)
-      .map((line: string) => JSON.parse(line))
-      .reverse();
-    _changes = entries;
-    return entries;
-  } catch {
-    return [];
-  }
-}
+export { getChanges };

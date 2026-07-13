@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -207,7 +208,7 @@ export function ProviderLinks({
           </>
         )}
         {sdkEntries.length > 0 && (
-          <>
+          <DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuLabel>SDK</DropdownMenuLabel>
             {sdkEntries.map(([lang, pkg]) => (
@@ -231,7 +232,7 @@ export function ProviderLinks({
                 </span>
               </DropdownMenuItem>
             ))}
-          </>
+          </DropdownMenuGroup>
         )}
       </DropdownMenuContent>
     </DropdownMenu>

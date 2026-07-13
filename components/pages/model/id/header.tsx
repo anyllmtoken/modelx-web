@@ -8,6 +8,7 @@ import { Button, ButtonLink } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
@@ -107,11 +108,12 @@ export async function ModelDetailHeader({
             <Download size={14} />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="glass glass-border">
+            <DropdownMenuGroup>
             <DropdownMenuLabel>{tc("export")}</DropdownMenuLabel>
             <DropdownMenuItem
               render={
                 <a
-                  href={`https://api.anyllmtoken.com/v1/export?format=json&provider=${provider}&model=${encodeURIComponent(model.id)}`}
+                  href={`/api/export?format=json&provider=${provider}&model=${encodeURIComponent(model.id)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 />
@@ -122,7 +124,7 @@ export async function ModelDetailHeader({
             <DropdownMenuItem
               render={
                 <a
-                  href={`https://api.anyllmtoken.com/v1/export?format=csv&provider=${provider}&model=${encodeURIComponent(model.id)}`}
+                  href={`/api/export?format=csv&provider=${provider}&model=${encodeURIComponent(model.id)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 />
@@ -130,6 +132,7 @@ export async function ModelDetailHeader({
             >
               {tc("csv")}
             </DropdownMenuItem>
+            </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
         <ModelIdCopy

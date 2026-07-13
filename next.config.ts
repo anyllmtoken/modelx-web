@@ -4,6 +4,8 @@ import createNextIntlPlugin from "next-intl/plugin";
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const nextConfig: NextConfig = {
+  // 让 Next.js 编译 workspace 内的 TS 源码包（无需预先构建）
+  transpilePackages: ["@modelx/data", "@modelx/data-cn", "@modelx/data-us"],
   trailingSlash: false,
   experimental: {
     optimizePackageImports: ["lucide-react", "@tanstack/react-table"],
