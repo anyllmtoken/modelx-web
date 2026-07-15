@@ -1,4 +1,4 @@
-import { SITE_URL, API_URL } from "@/lib/config";
+import { SITE_URL } from "@/lib/config";
 import { allModels, providers } from "@/lib/data";
 
 export const revalidate = 86400;
@@ -27,23 +27,7 @@ export async function GET() {
     `- Compare: ${SITE_URL}/compare`,
     `- Analytics: ${SITE_URL}/analytics`,
     `- Changelog: ${SITE_URL}/changes`,
-    `- API docs: ${SITE_URL}/docs/api`,
     `- English: ${SITE_URL}/en`,
-    "",
-    "## API",
-    "",
-    `REST API base: ${API_URL}/v1`,
-    `- GET /v1/models — list all models`,
-    `- GET /v1/models/:provider/:id — model details`,
-    `- GET /v1/providers — list all providers`,
-    `- GET /v1/providers/:id — provider details`,
-    `- GET /v1/models/search?q=... — search models`,
-    "- No authentication required. CORS enabled. Rate limit: 60 req/min per IP.",
-    "",
-    "Machine-readable Markdown API:",
-    `- ${API_URL}/markdown/ — all models as Markdown`,
-    `- ${API_URL}/markdown/models — model list`,
-    `- ${API_URL}/markdown/providers — provider list`,
     "",
     "## Stats",
     "",

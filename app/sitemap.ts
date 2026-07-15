@@ -20,7 +20,6 @@ export default async function sitemap({
       { url: `${BASE}/providers`, changeFrequency: "weekly", priority: 0.8 },
       { url: `${BASE}/compare`, changeFrequency: "weekly", priority: 0.7 },
       { url: `${BASE}/changes`, changeFrequency: "daily", priority: 0.7 },
-      { url: `${BASE}/docs/api`, changeFrequency: "monthly", priority: 0.6 },
       ...providers.map((p) => ({
         url: `${BASE}/${p.id}`,
         changeFrequency: "weekly" as const,

@@ -1,7 +1,0 @@
-// Handles GET /api/v1 (root of the V1 API)
-import { app } from "./app";
-
-export const GET = (req: Request) => app.fetch(req);
-export const POST = (req: Request) => app.fetch(req);
-export const PUT = (req: Request) => app.fetch(req);
-export const DELETE = (req: Request) => app.fetch(req);
