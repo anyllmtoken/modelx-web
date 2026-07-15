@@ -14,7 +14,11 @@ import {
 import { Link } from "@/i18n/routing";
 import { Section } from "@/components/ui/section";
 import { FEATURED_PROVIDERS } from "@/lib/constants";
-import { allModels, getProvider, providers } from "@/lib/data";
+import {
+  allModels,
+  getProvider,
+  getAllProviders,
+} from "@/lib/data";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -43,10 +47,11 @@ export default async function HomePage({
 }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Home" });
+  const allProvs = getAllProviders();
   const families = new Set(allModels.map((m) => m.family).filter(Boolean));
 
   const featuredProviders = FEATURED_PROVIDERS.map((id) =>
-    providers.find((p) => p.id === id),
+    allProvs.find((p) => p.id === id),
   ).filter((p): p is NonNullable<typeof p> => Boolean(p));
 
   return (
@@ -64,7 +69,7 @@ export default async function HomePage({
           <div className="mb-[18px]">
             <SearchBar
               items={[
-                ...providers.map((p) => ({
+                ...allProvs.map((p) => ({
                   id: `p-${p.id}`,
                   name: p.name,
                   href: `/${p.id}`,
@@ -93,7 +98,7 @@ export default async function HomePage({
           <StatsGrid
             items={[
               { label: t("statsModels"), value: allModels.length },
-              { label: t("statsProviders"), value: providers.length },
+              { label: t("statsProviders"), value: allProvs.length },
               { label: t("statsFamilies"), value: families.size },
             ]}
           />
@@ -116,14 +121,6 @@ export default async function HomePage({
                 className="mr-1.5 inline-block -translate-y-px"
               />
               {t("compareModels")}
-            </Link>
-            <span className="text-border mx-1 h-3 w-px bg-current align-middle" />
-            <Link
-              href="/docs/api"
-              className="text-muted-foreground hover:text-foreground dark:text-muted-foreground dark:hover:text-foreground text-sm no-underline transition-colors"
-            >
-              <Code size={14} className="mr-1.5 inline-block -translate-y-px" />
-              {t("apiReference")}
             </Link>
             <span className="text-border mx-1 h-3 w-px bg-current align-middle" />
             <Link
@@ -156,7 +153,7 @@ export default async function HomePage({
         <Section title={t("featuredProviders")}>
           <ProviderGrid
             providers={featuredProviders}
-            total={providers.length}
+            total={allProvs.length}
             modelsLabel={t("modelsLabel")}
             viewAllLabel={t("viewAll")}
             providersTotalLabel={t("providersTotal")}

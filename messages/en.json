@@ -96,7 +96,10 @@
     "headquarters": "Headquarters",
     "founded": "Founded",
     "apiBaseUrl": "API Base URL",
-    "models": "Models"
+    "models": "Models",
+    "type_direct": "Model Provider",
+    "type_cloud": "Cloud Platform",
+    "type_aggregator": "API Gateway"
   },
   "Compare": {
     "title": "Compare Models",

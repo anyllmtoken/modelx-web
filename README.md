@@ -1,6 +1,8 @@
-# @modelx/web
+# ModelX Web
 
-Next.js website for [modelpedia.dev](https://modelpedia.dev) — browse and compare AI models across providers.
+> AI model catalog frontend — browse, compare, and search models across 60+ providers.
+
+Data sourced from [modelx-data](https://github.com/anyllmtoken/modelx-data) — published daily as [`@anyllmtoken/modelx-data`](https://www.npmjs.com/package/@anyllmtoken/modelx-data) on npm.
 
 ## Stack
 

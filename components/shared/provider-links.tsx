@@ -31,7 +31,7 @@ export function ProviderLinks({
 }: {
   url: string;
   docsUrl: string;
-  pricingUrl: string;
+  pricingUrl: string | null | undefined;
   statusUrl?: string;
   changelogUrl?: string;
   playgroundUrl?: string;
@@ -67,6 +67,7 @@ export function ProviderLinks({
         >
           {t("docs")}
         </DropdownMenuItem>
+        {pricingUrl && (
         <DropdownMenuItem
           render={
             <a href={pricingUrl} target="_blank" rel="noopener noreferrer" />
@@ -74,6 +75,7 @@ export function ProviderLinks({
         >
           {t("pricing")}
         </DropdownMenuItem>
+        )}
         {playgroundUrl && (
           <DropdownMenuItem
             render={

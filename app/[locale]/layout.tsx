@@ -1,5 +1,4 @@
 import { Footer } from "@/components/shared/footer";
-import { FormatToggle } from "@/components/shared/format-toggle";
 import { Header } from "@/components/shared/header";
 import { providers } from "@/lib/data";
 import { Provider } from "./provider";
@@ -26,7 +25,6 @@ export default async function LocaleLayout({
         <Header commandPaletteData={commandPaletteData} />
         <main className="flex-1">{children}</main>
         <Footer />
-        <FormatToggle />
       </div>
     </Provider>
   );

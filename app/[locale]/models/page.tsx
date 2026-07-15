@@ -4,7 +4,7 @@ import { ModelList } from "@/components/shared/model-list";
 import { PageContainer } from "@/components/ui/page-container";
 import { PageHeader } from "@/components/ui/page-header";
 import { PROVIDER_TYPE_TIER } from "@/lib/constants";
-import { allModels, getProvider } from "@/lib/data";
+import { allModels, getProvider, getAllProviders } from "@/lib/data";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -28,10 +28,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ModelsPage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{ q?: string }>;
 }) {
+  const { locale } = await params;
   const t = await getTranslations("Models");
   const { q } = await searchParams;
   const items = allModels
@@ -41,6 +44,7 @@ export default async function ModelsPage({
         ...m,
         providerIcon: p?.icon,
         providerType: p?.type ?? "direct",
+        pricing_currency: p?.pricing_currency,
       };
     })
     .sort(

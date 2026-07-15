@@ -1,4 +1,5 @@
 import { Info } from "lucide-react";
+import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import {
   Tooltip,
@@ -122,7 +123,6 @@ export function DetailCell({
   /** Pass an ISO date string to render a semantic <time> element. */
   dateTime?: string;
 }) {
-  const Wrapper = href ? "a" : "span";
   const valueContent = dateTime ? (
     <time dateTime={dateTime}>{value}</time>
   ) : (
@@ -132,16 +132,27 @@ export function DetailCell({
     <div className="bg-card border-border/40 hover:border-border flex items-center justify-between rounded-lg border px-4 py-2.5 text-sm transition-colors">
       <span className="text-muted-foreground text-xs font-medium">{label}</span>
       <span className="flex items-center gap-1.5">
-        <Wrapper
-          href={href}
-          className={cn(
-            "text-foreground flex items-center gap-1.5 text-sm",
-            href && "hover:text-primary transition-colors duration-200",
-          )}
-        >
-          {icon}
-          {valueContent}
-        </Wrapper>
+        {href ? (
+          <Link
+            href={href}
+            className={cn(
+              "text-foreground flex items-center gap-1.5 text-sm",
+              href && "hover:text-primary transition-colors duration-200",
+            )}
+          >
+            {icon}
+            {valueContent}
+          </Link>
+        ) : (
+          <span
+            className={cn(
+              "text-foreground flex items-center gap-1.5 text-sm",
+            )}
+          >
+            {icon}
+            {valueContent}
+          </span>
+        )}
         {inheritedFrom && <InheritedBadge from={inheritedFrom} />}
       </span>
     </div>
@@ -151,15 +162,17 @@ export function DetailCell({
 export function PriceCell({
   label,
   value,
+  currency,
 }: {
   label: string;
   value?: number | null;
+  currency?: string;
 }) {
   return (
     <div className="bg-card border-border/40 rounded-lg border px-4 py-3">
       <div className="text-muted-foreground text-xs font-medium">{label}</div>
       <div className="text-foreground mt-1 font-mono font-semibold">
-        {formatPrice(value)}
+        {formatPrice(value, currency)}
       </div>
     </div>
   );

@@ -20,11 +20,11 @@
     "start": "next start"
   },
   "dependencies": {
+    "@anyllmtoken/modelx-data": "^0.1.1",
     "@base-ui/react": "^1.6.0",
     "@hono/mcp": "^0.3.0",
     "@hono/node-server": "^2.0.8",
     "@modelcontextprotocol/sdk": "^1.29.0",
-    "@modelx/data": "workspace:*",
     "@tanstack/react-table": "^8.21.3",
     "@vercel/analytics": "catalog:",
     "class-variance-authority": "^0.7.1",

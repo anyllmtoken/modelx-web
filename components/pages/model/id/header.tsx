@@ -1,4 +1,5 @@
 import { Download, GitCompareArrows, History } from "lucide-react";
+import { Link } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
 import { ModelIdCopy } from "@/components/pages/model/id/id-copy";
 import { RenderMarkdown } from "@/components/shared/markdown";
@@ -41,12 +42,12 @@ export async function ModelDetailHeader({
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-2.5">
-        <a
-          href={`/${model.provider}`}
-          className="shrink-0 transition-opacity duration-200 hover:opacity-70"
-        >
-          <ProviderIcon provider={providerInfo} size={22} />
-        </a>
+        <Link
+            href={`/${model.provider}`}
+            className="shrink-0 transition-opacity duration-200 hover:opacity-70"
+          >
+            <ProviderIcon provider={providerInfo} size={22} />
+          </Link>
         <h1 className="text-foreground text-xl font-bold tracking-tight">
           {model.name}
         </h1>
@@ -182,12 +183,12 @@ export async function ModelDetailHeader({
               {successors.map((s, i) => (
                 <span key={s}>
                   {i > 0 && ` ${t("or")} `}
-                  <a
-                    href={`/${model.provider}/${s}`}
-                    className="text-primary hover:text-primary/70 font-medium transition-colors duration-200"
-                  >
-                    {s}
-                  </a>
+                  <Link
+                      href={`/${model.provider}/${s}`}
+                      className="text-primary hover:text-primary/70 font-medium transition-colors duration-200"
+                    >
+                      {s}
+                    </Link>
                 </span>
               ))}
             </>

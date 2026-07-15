@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     "Gemini",
     "pricing",
   ],
-  icons: { icon: "/icon.svg" },
+  icons: { icon: "/icon.svg", shortcut: "/favicon.ico", apple: "/apple-icon.png" },
   metadataBase: new URL(SITE_URL),
   openGraph: {
     type: "website",

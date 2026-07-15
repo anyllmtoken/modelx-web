@@ -367,7 +367,12 @@ export function computeAnalytics(
     }
   }
   if (otherCount > 0) {
-    modelTypeDistribution.push({ type: "other", count: otherCount });
+    const existingOther = modelTypeDistribution.findIndex((e) => e.type === "other");
+    if (existingOther >= 0) {
+      modelTypeDistribution[existingOther].count += otherCount;
+    } else {
+      modelTypeDistribution.push({ type: "other", count: otherCount });
+    }
   }
 
   // 8. Parameters trend (max & avg per month, last 18 months)

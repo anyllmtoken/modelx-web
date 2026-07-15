@@ -40,8 +40,13 @@ export default async function ComparePage() {
         providerType: p?.type,
         creatorName: creator?.name ?? m.created_by,
         creatorIcon: creator?.icon,
+        pricing_currency: p?.pricing_currency,
       };
-    });
+    })
+    .filter(
+      (m, i, arr) =>
+        arr.findIndex((x) => x.provider === m.provider && x.id === m.id) === i,
+    );
 
   const aliases: Record<string, string> = {};
   for (const m of allModels) {

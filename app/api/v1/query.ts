@@ -1,5 +1,5 @@
-import type { Model } from "@modelx/data";
-import { allModels, providers } from "@modelx/data";
+import type { Model } from "@anyllmtoken/modelx-data";
+import { allModels, providers } from "@anyllmtoken/modelx-data";
 
 // ── Filter ──
 

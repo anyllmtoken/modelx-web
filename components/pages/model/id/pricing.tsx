@@ -9,10 +9,12 @@ export async function PricingSection({
   pricing,
   pricingNotes,
   fastModePricing,
+  currency,
 }: {
   pricing: ModelPricing;
   pricingNotes?: string[];
   fastModePricing?: { input: number; output: number };
+  currency?: string;
 }) {
   const t = await getTranslations("Model");
   if (!Object.values(pricing).some((v) => v != null)) return null;
@@ -63,7 +65,7 @@ export async function PricingSection({
                             key={tier.columns[i]}
                             className="text-foreground px-4 py-2.5 text-right font-mono text-sm font-medium tabular-nums"
                           >
-                            {val != null ? formatPrice(val) : "—"}
+                            {val != null ? formatPrice(val, currency) : "—"}
                           </td>
                         ))}
                       </tr>
@@ -78,18 +80,19 @@ export async function PricingSection({
       ) : (
         <>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
-            <PriceCell label="Input" value={pricing.input} />
-            <PriceCell label="Output" value={pricing.output} />
-            <PriceCell label={cacheWriteLabel} value={pricing.cache_write} />
+            <PriceCell label="Input" value={pricing.input} currency={currency} />
+            <PriceCell label="Output" value={pricing.output} currency={currency} />
+            <PriceCell label={cacheWriteLabel} value={pricing.cache_write} currency={currency} />
             {has1hCache && (
               <PriceCell
                 label="Cache write (1h)"
                 value={pricing.cache_write_1h}
+                currency={currency}
               />
             )}
-            <PriceCell label="Cache read" value={pricing.cached_input} />
-            <PriceCell label="Batch in" value={pricing.batch_input} />
-            <PriceCell label="Batch out" value={pricing.batch_output} />
+            <PriceCell label="Cache read" value={pricing.cached_input} currency={currency} />
+            <PriceCell label="Batch in" value={pricing.batch_input} currency={currency} />
+            <PriceCell label="Batch out" value={pricing.batch_output} currency={currency} />
           </div>
           {fastModePricing && (
             <div className="border-border/40 mt-3 overflow-hidden rounded-xl border">
@@ -100,8 +103,8 @@ export async function PricingSection({
                 </span>
               </div>
               <div className="grid grid-cols-2 gap-2 p-2">
-                <PriceCell label="Input" value={fastModePricing.input} />
-                <PriceCell label="Output" value={fastModePricing.output} />
+                <PriceCell label="Input" value={fastModePricing.input} currency={currency} />
+                <PriceCell label="Output" value={fastModePricing.output} currency={currency} />
               </div>
             </div>
           )}

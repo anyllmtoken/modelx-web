@@ -7,6 +7,7 @@ import {
   TooltipContent,
 } from "@/components/ui/tooltip";
 import type { CapabilityRow } from "@/lib/analytics";
+import { Link } from "@/i18n/routing";
 import { cn } from "@/lib/cn";
 import { type ChartProps, Empty } from "./chart-utils";
 
@@ -65,7 +66,7 @@ export function CapabilityHeatmap({
         {/* Data rows */}
         {data.slice(0, 15).map((row) => (
           <React.Fragment key={row.provider}>
-            <a
+            <Link
               href={`/${row.provider}`}
               className="bg-background hover:bg-accent flex items-center gap-2 px-3 py-2 text-sm transition-colors duration-200"
             >
@@ -77,7 +78,7 @@ export function CapabilityHeatmap({
               <span className="text-muted-foreground ml-auto shrink-0 font-mono text-[10px]">
                 {row.modelCount}
               </span>
-            </a>
+            </Link>
             {caps.map((c) => {
               const active =
                 selection?.type === "capability" &&

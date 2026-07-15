@@ -9,7 +9,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { PageContainer } from "@/components/ui/page-container";
 import { PageHeader } from "@/components/ui/page-header";
 import { cn } from "@/lib/cn";
-import { TYPE_LABELS } from "@/lib/constants";
 import { providers } from "@/lib/data";
 import { sortProviders } from "@/lib/sort";
 
@@ -17,8 +16,8 @@ const SECTION_ORDER = ["direct", "cloud", "aggregator"] as const;
 
 const TYPE_BADGE_VARIANT: Record<string, "default" | "secondary" | "outline"> =
   {
-    direct: "default",
-    cloud: "secondary",
+    direct: "outline",
+    cloud: "outline",
     aggregator: "outline",
   };
 
@@ -59,7 +58,7 @@ export default function ProvidersPage() {
             <section key={type}>
               <div className="mb-3 flex items-center gap-2">
                 <Badge variant={TYPE_BADGE_VARIANT[type]}>
-                  {TYPE_LABELS[type]}
+                  {t(`type_${type}`)}
                 </Badge>
                 <span className="text-muted-foreground text-xs">
                   {list.length} {tc("providers")} ·{" "}

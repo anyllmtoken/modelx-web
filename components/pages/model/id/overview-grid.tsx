@@ -4,18 +4,20 @@ import { formatPrice, formatTokens } from "@/lib/format";
 
 function getPrimaryPrice(
   model: ModelData,
+  currency?: string,
 ): { label: string; value: string; sub?: string } | null {
   const tier = model.pricing?.tiers?.[0];
   if (!tier) return null;
   const stdRow = tier.rows.find((r) => r.label === "Standard") ?? tier.rows[0];
   if (!stdRow) return null;
+  const prefix = currency === "CNY" ? "¥" : "$";
 
   for (let i = 0; i < tier.columns.length; i++) {
     if (tier.columns[i] === "Quality") continue;
     if (stdRow.values[i] != null) {
       return {
         label: tier.label === "Text tokens" ? "Price" : tier.label,
-        value: `$${stdRow.values[i]}`,
+        value: `${prefix}${stdRow.values[i]}`,
         sub: tier.unit ? `/${tier.unit.replace("Per ", "")}` : undefined,
       };
     }
@@ -26,6 +28,7 @@ function getPrimaryPrice(
 function getPriceCards(
   model: ModelData,
   inh: (field: string) => string | undefined,
+  currency?: string,
 ): React.ReactNode[] {
   const hasTokenPricing =
     model.pricing?.input != null || model.pricing?.output != null;
@@ -35,14 +38,14 @@ function getPriceCards(
       <MetricCard
         key="inp"
         label="Input price"
-        value={formatPrice(model.pricing?.input)}
+        value={formatPrice(model.pricing?.input, currency)}
         sub={model.pricing?.input != null ? "/1M tokens" : undefined}
         inheritedFrom={inh("pricing")}
       />,
       <MetricCard
         key="outp"
         label="Output price"
-        value={formatPrice(model.pricing?.output)}
+        value={formatPrice(model.pricing?.output, currency)}
         sub={model.pricing?.output != null ? "/1M tokens" : undefined}
         inheritedFrom={inh("pricing")}
       />,
@@ -73,9 +76,11 @@ const RATING_FIELDS = [
 export async function OverviewGrid({
   model,
   inh,
+  currency,
 }: {
   model: ModelData;
   inh: (field: string) => string | undefined;
+  currency?: string;
 }) {
   const cards: React.ReactNode[] = [
     ...RATING_FIELDS.filter((f) => model[f.field] != null).map((f) => (
@@ -110,7 +115,7 @@ export async function OverviewGrid({
         inheritedFrom={inh("max_output_tokens")}
       />
     ),
-    ...getPriceCards(model, inh),
+    ...getPriceCards(model, inh, currency),
   ].filter(Boolean);
 
   if (cards.length === 0) return null;

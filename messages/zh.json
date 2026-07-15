@@ -84,7 +84,10 @@
     "headquarters": "总部",
     "founded": "成立时间",
     "apiBaseUrl": "API 基础地址",
-    "models": "模型"
+    "models": "模型",
+    "type_direct": "模型提供商",
+    "type_cloud": "云平台",
+    "type_aggregator": "API 网关"
   },
   "Compare": {
     "title": "对比模型",
@@ -123,7 +126,8 @@
     "structuredOutputLabel": "结构化输出",
     "jsonModeLabel": "JSON 模式",
     "fineTuningLabel": "微调",
-    "batchLabel": "批量"
+    "batchLabel": "批量",
+    "modelType": "模型类型"
   },
   "Analytics": {
     "title": "数据分析",

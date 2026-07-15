@@ -31,10 +31,12 @@ export interface ModelItem {
   context_window?: number | null;
   capabilities?: ModelCapabilities;
   pricing?: { input?: number | null; output?: number | null };
+  pricing_currency?: string;
   providerIcon?: string;
   license?: string;
   parameters?: number | null;
   active_parameters?: number | null;
+  region?: string;
   [key: string]: unknown;
 }
 
@@ -116,6 +118,11 @@ function buildColumns(
                 <span className="text-foreground truncate text-sm">
                   {m.name}
                 </span>
+                {m.region && (
+                  <span className="text-muted-foreground shrink-0 text-[10px] font-medium">
+                    {m.region === "CN" ? "🇨🇳" : "🌍"}
+                  </span>
+                )}
                 {m.license && m.license !== "proprietary" && (
                   <Badge
                     className="bg-success/10 text-success shrink-0 text-[10px]"
@@ -171,14 +178,15 @@ function buildColumns(
       },
       cell: ({ row }) => {
         const p = row.original.pricing;
+        const currency = row.original.pricing_currency;
         if (p?.input == null && p?.output == null) return null;
         return (
           <span className="font-mono tabular-nums">
             <span className="text-foreground block text-sm">
-              {formatPrice(p?.input)}
+              {formatPrice(p?.input, currency)}
             </span>
             <span className="text-muted-foreground block text-xs">
-              {formatPrice(p?.output)}
+              {formatPrice(p?.output, currency)}
             </span>
           </span>
         );
@@ -282,6 +290,7 @@ export function ModelList({
   const [typeFilter, setTypeFilter] = useState("");
   const [capFilters, setCapFilters] = useState<Set<string>>(new Set());
   const [ossOnly, setOssOnly] = useState(false);
+  const [regionFilter, setRegionFilter] = useState("");
 
   function toggleCap(key: string) {
     setCapFilters((prev) => {
@@ -319,6 +328,10 @@ export function ModelList({
 
   if (ossOnly) {
     data = data.filter((m) => m.license && m.license !== "proprietary");
+  }
+
+  if (regionFilter) {
+    data = data.filter((m) => m.region === regionFilter);
   }
 
   const t = useTranslations("Models");
@@ -410,8 +423,24 @@ export function ModelList({
               )}
             >
               {ossLabel ?? t("oss")}
-            </button>
-            {deprecatedCount > 0 && (
+              </button>
+              <button
+                type="button"
+                onClick={() =>
+                  setRegionFilter(
+                    regionFilter === "CN" ? "" : regionFilter === "US" ? "CN" : "US",
+                  )
+                }
+                className={cn(
+                  "h-8 rounded-2xl border px-3.5 text-[13px] font-medium transition-all",
+                  regionFilter
+                    ? "bg-primary/10 text-primary border-primary/30"
+                    : "dark:bg-card text-muted-foreground border-border hover:border-primary hover:text-primary bg-white",
+                )}
+              >
+                {regionFilter === "CN" ? "🇨🇳 CN" : regionFilter === "US" ? "🌍 US" : "All Regions"}
+              </button>
+              {deprecatedCount > 0 && (
               <button
                 type="button"
                 onClick={() => setShowDeprecated(!showDeprecated)}

@@ -4,10 +4,10 @@ import { notFound } from "next/navigation";
 import { PageContainer } from "@/components/ui/page-container";
 import { ProviderDetailHeader } from "@/components/pages/provider/header";
 import { ModelList } from "@/components/shared/model-list";
-import { getProvider, providers } from "@/lib/data";
+import { getProvider, providers, getProviderByLocale } from "@/lib/data";
 import { sortModels } from "@/lib/sort";
 
-type Params = { provider: string };
+type Params = { provider: string; locale: string };
 
 export const dynamicParams = true;
 export const dynamic = "force-dynamic";
@@ -54,13 +54,17 @@ export default async function ProviderDetailPage({
   params: Promise<Params>;
   searchParams: Promise<{ family?: string }>;
 }) {
-  const { provider: id } = await params;
+  const { provider: id, locale } = await params;
   const { family } = await searchParams;
-  const provider = getProvider(id);
+  const provider = getProviderByLocale(id, locale) ?? getProvider(id);
   if (!provider) return notFound();
 
   const allProviderModels = sortModels(
-    provider.models.map((m) => ({ ...m, provider: provider.id })),
+    provider.models.map((m) => ({
+      ...m,
+      provider: provider.id,
+      pricing_currency: provider.pricing_currency,
+    })),
   );
 
   const models = family

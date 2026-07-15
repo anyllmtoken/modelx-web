@@ -72,6 +72,8 @@ export function PriceVsIntelligence({
           const xPct =
             logMax > 0 ? (Math.log10(d.input + 1) / logMax) * 100 : 50;
           const yPct = 8 + (d.performance / 5) * 80;
+          const left = Math.round((5 + (xPct / 100) * 90) * 100) / 100;
+          const bottom = Math.round(yPct * 100) / 100;
           const isHovered = hovered === d.id;
           const isActive =
             hasModelSel && (selection as { id: string }).id === d.id;
@@ -92,8 +94,8 @@ export function PriceVsIntelligence({
                           : "h-2 w-2 opacity-70",
                   )}
                   style={{
-                    left: `${5 + (xPct / 100) * 90}%`,
-                    bottom: `${yPct}%`,
+                    left: `${left}%`,
+                    bottom: `${bottom}%`,
                     transform: "translate(-50%, 50%)",
                   }}
                   onMouseEnter={() => setHovered(d.id)}

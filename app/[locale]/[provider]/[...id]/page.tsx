@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { SITE_URL } from "@/lib/config";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { Link } from "@/i18n/routing";
 import { CapabilitiesGrid } from "@/components/pages/model/id/capabilities";
 import { ChangesOverlay } from "@/components/pages/model/id/changes-overlay";
 import {
@@ -234,7 +235,7 @@ export default async function ModelDetailPage({
           changesCount={modelChanges.length}
         />
 
-        <OverviewGrid model={model} inh={inh} />
+        <OverviewGrid model={model} inh={inh} currency={providerInfo?.pricing_currency} />
 
         {(aliasOf || (snapshots?.length ?? 0) > 0) && (
           <div className="flex flex-wrap items-center gap-2 text-xs">
@@ -243,12 +244,12 @@ export default async function ModelDetailPage({
                 <span className="text-muted-foreground/60">
                   {model.alias ? t("aliasOf") : t("snapshotOf")}
                 </span>
-                <a
+                <Link
                   href={`/${model.provider}/${aliasOf}`}
                   className="bg-muted text-muted-foreground ring-border hover:text-foreground rounded px-2 py-1 font-mono ring-1 transition-colors duration-200"
                 >
                   {aliasOf}
-                </a>
+                </Link>
               </>
             )}
             {(snapshots?.length ?? 0) > 0 && (
@@ -287,7 +288,7 @@ export default async function ModelDetailPage({
         <Section id="endpoints" title={t("endpoints")}>
           <EndpointList
             endpoints={model.endpoints}
-            apiUrl={providerInfo?.api_url}
+            apiUrl={providerInfo?.api_url ?? undefined}
           />
         </Section>
       )}
@@ -301,6 +302,7 @@ export default async function ModelDetailPage({
               | { input: number; output: number }
               | undefined
           }
+          currency={providerInfo?.pricing_currency}
         />
       )}
 

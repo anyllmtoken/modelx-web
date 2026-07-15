@@ -1,5 +1,6 @@
 "use client";
 
+import { Link } from "@/i18n/routing";
 import type { LucideIcon } from "lucide-react";
 import {
   Brain,
@@ -74,6 +75,7 @@ interface CompareModel {
     batch_input?: number | null;
     batch_output?: number | null;
   };
+  pricing_currency?: string;
   tools?: string[];
   endpoints?: string[];
   [key: string]: unknown;
@@ -197,7 +199,7 @@ function CapBadge({
 
 function ModelHeader({ model }: { model: CompareModel }) {
   return (
-    <a
+    <Link
       href={`/${model.provider}/${model.id}`}
       className="border-border hover:bg-accent flex min-w-0 items-center gap-2 border-l px-4 py-3 transition-colors duration-200"
     >
@@ -208,7 +210,7 @@ function ModelHeader({ model }: { model: CompareModel }) {
       <span className="text-foreground truncate text-sm font-medium">
         {model.name}
       </span>
-    </a>
+    </Link>
   );
 }
 
@@ -391,7 +393,7 @@ function CompareInner({
           />
           <CompareRow
             icon={Brain}
-            label="Reasoning"
+            label={t("reasoning")}
             a={<RatingDots value={a.reasoning} labels={REASONING_LABELS} />}
             b={<RatingDots value={b.reasoning} labels={REASONING_LABELS} />}
             diff={neq(a.reasoning, b.reasoning)}
@@ -407,43 +409,43 @@ function CompareInner({
           <CompareRow
             icon={CircleDollarSign}
             label={t("inputPrice")}
-            a={formatPrice(a.pricing?.input)}
-            b={formatPrice(b.pricing?.input)}
+            a={formatPrice(a.pricing?.input, a.pricing_currency)}
+            b={formatPrice(b.pricing?.input, b.pricing_currency)}
             diff={neq(a.pricing?.input, b.pricing?.input)}
           />
           <CompareRow
             icon={CircleDollarSign}
             label={t("outputPrice")}
-            a={formatPrice(a.pricing?.output)}
-            b={formatPrice(b.pricing?.output)}
+            a={formatPrice(a.pricing?.output, a.pricing_currency)}
+            b={formatPrice(b.pricing?.output, b.pricing_currency)}
             diff={neq(a.pricing?.output, b.pricing?.output)}
           />
           <CompareRow
             icon={Database}
             label={t("cacheWrite")}
-            a={formatPrice(a.pricing?.cache_write)}
-            b={formatPrice(b.pricing?.cache_write)}
+            a={formatPrice(a.pricing?.cache_write, a.pricing_currency)}
+            b={formatPrice(b.pricing?.cache_write, b.pricing_currency)}
             diff={neq(a.pricing?.cache_write, b.pricing?.cache_write)}
           />
           <CompareRow
             icon={Database}
             label={t("cacheRead")}
-            a={formatPrice(a.pricing?.cached_input)}
-            b={formatPrice(b.pricing?.cached_input)}
+            a={formatPrice(a.pricing?.cached_input, a.pricing_currency)}
+            b={formatPrice(b.pricing?.cached_input, b.pricing_currency)}
             diff={neq(a.pricing?.cached_input, b.pricing?.cached_input)}
           />
           <CompareRow
             icon={Coins}
             label={t("batchInput")}
-            a={formatPrice(a.pricing?.batch_input)}
-            b={formatPrice(b.pricing?.batch_input)}
+            a={formatPrice(a.pricing?.batch_input, a.pricing_currency)}
+            b={formatPrice(b.pricing?.batch_input, b.pricing_currency)}
             diff={neq(a.pricing?.batch_input, b.pricing?.batch_input)}
           />
           <CompareRow
             icon={Coins}
             label={t("batchOutput")}
-            a={formatPrice(a.pricing?.batch_output)}
-            b={formatPrice(b.pricing?.batch_output)}
+            a={formatPrice(a.pricing?.batch_output, a.pricing_currency)}
+            b={formatPrice(b.pricing?.batch_output, b.pricing_currency)}
             diff={neq(a.pricing?.batch_output, b.pricing?.batch_output)}
           />
           <CompareRow

@@ -1,5 +1,6 @@
 "use client";
 
+import { Link } from "@/i18n/routing";
 import { ArrowRight, Calendar, DollarSign, X, Zap } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ProviderIcon } from "@/components/shared/provider-icon";
@@ -184,9 +185,9 @@ function renderContent(
             </div>
             {/* Models in this provider */}
             {group.models.slice(0, 8).map((m) => (
-              <a
-                key={m.id}
-                href={`/${m.id}`}
+              <Link
+                key={`${m.provider}/${m.id}-${m.region}`}
+                href={`/${m.provider}/${m.id}`}
                 className="border-border hover:bg-accent flex items-center gap-2 border-t px-3 py-1.5 transition-colors duration-200"
               >
                 <span className="text-foreground min-w-0 flex-1 truncate text-xs">
@@ -195,7 +196,7 @@ function renderContent(
                 <span className="text-muted-foreground shrink-0 font-mono text-[10px]">
                   {formatMeta(m, selection)}
                 </span>
-              </a>
+              </Link>
             ))}
             {group.models.length > 8 && (
               <div className="border-border text-muted-foreground border-t px-3 py-1 text-[10px]">
@@ -285,12 +286,12 @@ function renderModel(
         </div>
       )}
 
-      <a
-        href={`/${m.id}`}
+      <Link
+        href={`/${m.provider}/${m.id}`}
         className="border-border text-muted-foreground hover:bg-accent hover:text-foreground flex items-center justify-center gap-1.5 border-t px-3 py-2.5 text-xs transition-colors duration-200"
       >
         View details <ArrowRight size={12} />
-      </a>
+      </Link>
     </>
   );
 }
@@ -534,6 +535,13 @@ function groupByProvider(models: AnalyticsModel[]): ProviderGroup[] {
       icon: m.providerIcon,
       models: [],
     };
+    // Dedup: skip if same provider+id+region already in group
+    if (
+      group.models.some(
+        (x) => x.id === m.id && x.region === m.region,
+      )
+    )
+      continue;
     group.models.push(m);
     map.set(m.provider, group);
   }

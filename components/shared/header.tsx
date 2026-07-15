@@ -35,7 +35,6 @@ export async function Header({ commandPaletteData }: HeaderProps) {
     { href: "/providers", label: t("providers") },
     { href: "/compare", label: t("compare") },
     { href: "/analytics", label: t("analytics") },
-    { href: "/docs/api", label: t("api") },
   ] as const;
 
   return (
@@ -86,7 +85,7 @@ export async function Header({ commandPaletteData }: HeaderProps) {
             pages={NAV_LINKS.map((link) => ({
               type: "page" as const,
               id: `p-${link.href.replace(/\//g, "").replace(/[^a-z]/g, "")}`,
-              name: link.href === "/docs/api" ? t("apiReference") : link.label,
+              name: link.label,
               href: link.href,
             }))}
             providers={commandPaletteData.providers}

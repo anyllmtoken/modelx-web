@@ -1,7 +1,7 @@
 import { StreamableHTTPTransport } from "@hono/mcp";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import type { Model } from "@modelx/data";
-import { allModels, getModel, getProvider, providers } from "@modelx/data";
+import type { Model } from "@anyllmtoken/modelx-data";
+import { allModels, getModel, getProvider, providers } from "@anyllmtoken/modelx-data";
 import type { Context } from "hono";
 import { z } from "zod/v4";
 import {
@@ -357,7 +357,7 @@ function createMcpServer() {
             const [provider, ...rest] = id.split("/");
             return getModel(provider, rest.join("/"));
           })
-          .filter((m): m is Model => m != null);
+          .filter((m): m is NonNullable<typeof m> => m != null);
       } else {
         models = allModels.filter(
           (m) => m.pricing?.input != null || m.pricing?.output != null,

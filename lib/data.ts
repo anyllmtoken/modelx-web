@@ -1,16 +1,16 @@
-import type { Model, ProviderWithModels, ChangeEntry } from "@modelx/data";
+import type { Model, ProviderWithModels, ChangeEntry } from "@anyllmtoken/modelx-data";
 import {
-  allModels as _allModels,
+  getModels as _getModels,
   getModel as _getModel,
   getProvider as _getProvider,
-  providers as _providers,
+  getProviders as _getProviders,
   getActiveModels,
   getAllProviders,
   getChanges,
   getModelsByCreator,
   getModelsByFamily,
   getModelsByProvider,
-} from "@modelx/data";
+} from "@anyllmtoken/modelx-data";
 import { normalizeModelId } from "./search";
 
 export type {
@@ -21,10 +21,47 @@ export type {
   ModelPricing,
   Provider,
   ProviderWithModels,
-} from "@modelx/data";
+} from "@anyllmtoken/modelx-data";
 
-export const allModels: Model[] = _allModels;
-export const providers: ProviderWithModels[] = _providers;
+// ── Export combined data (unfiltered) ──
+
+export const allModels: Model[] = _getModels();
+export const providers: ProviderWithModels[] = _getProviders();
+
+// ── Locale-aware selectors ──
+// zh → prefer CN region; en/others → prefer US
+
+export function regionForLocale(locale: string): string {
+  return locale === "zh" ? "CN" : "US";
+}
+
+export function getModelsByLocale(locale: string): Model[] {
+  const region = regionForLocale(locale);
+  return _getModels().filter((m) => (m as any).region === region);
+}
+
+export function getProvidersByLocale(locale: string): ProviderWithModels[] {
+  const region = regionForLocale(locale);
+  const all = getAllProviders().map((p) => ({
+    ...p,
+    models: p.models.filter((m) => (m as any).region === region),
+  }));
+  return all.filter((p) => p.models.length > 0);
+}
+
+export function getProviderByLocale(
+  id: string,
+  locale: string,
+): ProviderWithModels | undefined {
+  const p = getAllProviders().find((p) => p.id === id);
+  if (!p) return undefined;
+  const region = regionForLocale(locale);
+  const filtered = p.models.filter((m) => (m as any).region === region);
+  return { ...p, models: filtered };
+}
+
+// ── Original selectors (keep for backwards compat) ──
+
 export function getModel(provider: string, id: string): Model | undefined {
   const decoded = decodeURIComponent(id);
   return (
@@ -42,6 +79,8 @@ export {
   getModelsByFamily,
   getModelsByProvider,
 };
+
+// ── Inheritance ──
 
 const INHERITABLE_FIELDS = [
   "description",

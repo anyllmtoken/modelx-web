@@ -57,9 +57,3 @@ export const FEATURED_PROVIDERS = [
   "xai",
   "qwen",
 ] as const;
-
-export const TYPE_LABELS: Record<string, string> = {
-  direct: "Model Provider",
-  aggregator: "API Gateway",
-  cloud: "Cloud Platform",
-};

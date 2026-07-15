@@ -1,3 +1,4 @@
+import { Link } from "@/i18n/routing";
 import { OverlayPanel } from "@/components/pages/model/id/overlay-panel";
 import { ChangeEntry } from "@/components/shared/change-entry";
 import { RenderMarkdown } from "@/components/shared/markdown";
@@ -27,12 +28,12 @@ export function ChangesOverlay({
       backHref={`/${provider}/${modelId}`}
       header={
         <>
-          <a
-            href={`/${model.provider}`}
-            className="shrink-0 transition-opacity duration-200 hover:opacity-70"
-          >
-            <ProviderIcon provider={providerInfo} size={20} />
-          </a>
+          <Link
+              href={`/${model.provider}`}
+              className="shrink-0 transition-opacity duration-200 hover:opacity-70"
+            >
+              <ProviderIcon provider={providerInfo} size={20} />
+            </Link>
           <h2 className="text-foreground flex-1 text-lg font-medium tracking-tight">
             {model.name}
           </h2>
@@ -58,21 +59,21 @@ export function ChangesOverlay({
           {(model.alias || (model.snapshots?.length ?? 0) > 0) && (
             <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
               {model.alias && (
-                <a
+                <Link
                   href={`/${model.provider}/${model.alias}`}
                   className="bg-muted text-muted-foreground ring-border hover:text-foreground rounded px-2 py-1 font-mono ring-1 transition-colors duration-200"
                 >
                   alias → {model.alias}
-                </a>
+                </Link>
               )}
               {model.snapshots?.map((s) => (
-                <a
+                <Link
                   key={s}
                   href={`/${model.provider}/${s}`}
                   className="bg-muted text-muted-foreground ring-border hover:text-foreground rounded px-2 py-1 font-mono ring-1 transition-colors duration-200"
                 >
                   {s}
-                </a>
+                </Link>
               ))}
             </div>
           )}

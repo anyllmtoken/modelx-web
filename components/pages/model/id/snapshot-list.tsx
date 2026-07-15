@@ -1,5 +1,6 @@
 "use client";
 
+import { Link } from "@/i18n/routing";
 import { useState } from "react";
 
 interface Snapshot {
@@ -22,13 +23,13 @@ export function SnapshotList({
     <>
       <span className="text-muted-foreground/60">Snapshots</span>
       {active.map((s) => (
-        <a
+        <Link
           key={s.id}
           href={`/${provider}/${s.id}`}
           className="bg-muted text-muted-foreground ring-border hover:text-foreground rounded px-2 py-1 font-mono ring-1 transition-colors duration-200"
         >
           {s.id}
-        </a>
+        </Link>
       ))}
       {deprecated.length > 0 && !showDeprecated && (
         <button
@@ -41,13 +42,13 @@ export function SnapshotList({
       )}
       {showDeprecated &&
         deprecated.map((s) => (
-          <a
+          <Link
             key={s.id}
             href={`/${provider}/${s.id}`}
             className="bg-muted text-muted-foreground/40 ring-border hover:text-muted-foreground rounded px-2 py-1 font-mono line-through ring-1 transition-colors duration-200 hover:no-underline"
           >
             {s.id}
-          </a>
+          </Link>
         ))}
     </>
   );

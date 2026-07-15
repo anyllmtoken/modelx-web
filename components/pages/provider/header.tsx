@@ -14,7 +14,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Row } from "@/components/ui/row";
-import { TYPE_LABELS } from "@/lib/constants";
 import type { ProviderWithModels } from "@/lib/data";
 import { regionFlag } from "@/lib/format";
 
@@ -43,7 +42,7 @@ export async function ProviderDetailHeader({
           {family ? `${provider.name} · ${family}` : provider.name}
         </h1>
         {provider.type && (
-          <Badge>{TYPE_LABELS[provider.type] ?? provider.type}</Badge>
+          <Badge>{t(`type_${provider.type}`)}</Badge>
         )}
         {provider.openai_compatible && (
           <Badge className="bg-info/10 text-info">
@@ -109,7 +108,7 @@ export async function ProviderDetailHeader({
         </p>
       )}
 
-      <div className="bg-border ring-border grid grid-cols-2 gap-px overflow-hidden rounded-md ring-1">
+      <div className="grid grid-cols-2 gap-3">
         <MetricCard
           label={t("activeModels")}
           value={String(activeCount)}
@@ -129,12 +128,14 @@ export async function ProviderDetailHeader({
         {provider.founded && (
           <Row label={t("founded")} value={String(provider.founded)} />
         )}
+        {provider.api_url && (
         <Row
           label={t("apiBaseUrl")}
           value={provider.api_url}
           mono
           copyValue={provider.api_url}
         />
+        )}
         {provider.models_url && (
           <Row
             label={t("models")}

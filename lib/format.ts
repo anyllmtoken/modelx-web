@@ -28,11 +28,11 @@ export function formatValue(v: unknown): string {
 }
 
 /** Format a price value as a dollar string, max 2 decimal places, or dash for null */
-export function formatPrice(value: number | null | undefined): string {
+export function formatPrice(value: number | null | undefined, currency?: string): string {
   if (value == null) return "—";
-  // Round to avoid floating point artifacts (e.g. 1.6300000000000001 → 1.63)
   const rounded = Math.round(value * 100) / 100;
-  return `$${rounded}`;
+  const prefix = currency === "CNY" ? "¥" : "$";
+  return `${prefix}${rounded}`;
 }
 
 /** Format parameter count in billions (e.g. 70 → "70B", 0.5 → "500M") */
