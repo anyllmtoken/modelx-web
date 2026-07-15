@@ -1,6 +1,6 @@
 import { SITE_URL } from "@/lib/config";
-import type { Model } from "@anyllmtoken/modelx-data";
-import { allModels, getModel, getProvider, providers } from "@anyllmtoken/modelx-data";
+import type { Model } from "@/lib/data";
+import { allModels, getModel, getProvider, providers } from "@/lib/data";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { prettyJSON } from "hono/pretty-json";

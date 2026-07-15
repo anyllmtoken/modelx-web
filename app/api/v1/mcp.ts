@@ -1,7 +1,7 @@
 import { StreamableHTTPTransport } from "@hono/mcp";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import type { Model } from "@anyllmtoken/modelx-data";
-import { allModels, getModel, getProvider, providers } from "@anyllmtoken/modelx-data";
+import type { Model } from "@/lib/data";
+import { allModels, getModel, getProvider, providers } from "@/lib/data";
 import type { Context } from "hono";
 import { z } from "zod/v4";
 import {

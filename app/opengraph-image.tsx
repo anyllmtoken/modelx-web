@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import { Logo } from "@/components/shared/logo";
 import { allModels, providers } from "@/lib/data";
+import { SITE_URL } from "@/lib/config";
 
 export const runtime = "nodejs";
 export const alt = "ModelX";
@@ -30,7 +31,7 @@ export default function OGImage() {
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-        <Logo size={36} color="#fafafa" />
+        <Logo size={36} src={`${SITE_URL}/icon0.svg`} />
         <div style={{ display: "flex", fontSize: 18, color: "#71717a" }}>
           ModelX.dev
         </div>

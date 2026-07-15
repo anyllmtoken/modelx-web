@@ -2,6 +2,7 @@ import { ImageResponse } from "next/og";
 import { Logo } from "@/components/shared/logo";
 import { getModel, getProvider } from "@/lib/data";
 import { formatTokens } from "@/lib/format";
+import { SITE_URL } from "@/lib/config";
 
 export const runtime = "nodejs";
 
@@ -78,7 +79,7 @@ export async function GET(request: Request) {
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-        <Logo size={36} color="#fafafa" />
+        <Logo size={36} />
         <div style={{ display: "flex", fontSize: 18, color: "#71717a" }}>
           {`${providerInfo?.name ?? provider} · anyllmtoken.com`}
         </div>

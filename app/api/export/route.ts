@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { providers, getModel, getModelsByProvider } from "@anyllmtoken/modelx-data";
-import type { Model } from "@anyllmtoken/modelx-data";
+import { providers, getModel, getModelsByProvider } from "@/lib/data";
+import type { Model } from "@/lib/data";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
