@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { ButtonAnchor, ButtonLink } from "@/components/ui/button";
+import { NEW_ISSUE_URL } from "@/lib/config";
 
 export default async function ProviderNotFound() {
   const tn = await getTranslations("NotFound");
@@ -16,14 +17,14 @@ export default async function ProviderNotFound() {
       <div className="mt-6 flex flex-wrap gap-3">
         <ButtonLink href="/">{tn("backToHome")}</ButtonLink>
         <ButtonAnchor
-          href="https://gitee.com/fastauth/model-x/issues/new?title=Add+provider:+&labels=new-provider"
+          href={`${NEW_ISSUE_URL}?title=Add+provider:+&labels=new-provider`}
           target="_blank"
           rel="noopener noreferrer"
         >
           {tp("requestProvider")}
         </ButtonAnchor>
         <ButtonAnchor
-          href="https://gitee.com/fastauth/model-x/issues/new"
+          href={NEW_ISSUE_URL}
           target="_blank"
           rel="noopener noreferrer"
         >

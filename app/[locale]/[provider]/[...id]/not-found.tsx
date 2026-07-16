@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { ButtonAnchor, ButtonLink } from "@/components/ui/button";
+import { NEW_ISSUE_URL } from "@/lib/config";
 
 export default async function ModelNotFound() {
   const t = await getTranslations("NotFound");
@@ -16,7 +17,7 @@ export default async function ModelNotFound() {
         <ButtonLink href="/">{t("backToHome")}</ButtonLink>
         <ButtonLink href="/models">{t("browseModels")}</ButtonLink>
         <ButtonAnchor
-          href="https://gitee.com/fastauth/model-x/issues/new?title=Missing+model:+&labels=missing-model"
+          href={`${NEW_ISSUE_URL}?title=Missing+model:+&labels=missing-model`}
           target="_blank"
           rel="noopener noreferrer"
         >

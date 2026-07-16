@@ -3,6 +3,7 @@ import { ProviderIcon } from "@/components/shared/provider-icon";
 import { cn } from "@/lib/cn";
 import type { ChangeEntry as ChangeEntryData } from "@/lib/data";
 import { formatDate, formatPrice, formatValue } from "@/lib/format";
+import { COMMIT_URL } from "@/lib/config";
 
 const ACTION_COLORS: Record<string, string> = {
   create: "bg-success/10 text-success",
@@ -157,7 +158,7 @@ export function ChangeEntry({
         </span>
         {entry.commit && (
           <a
-            href={`https://gitee.com/fastauth/model-x/commit/${entry.commit}`}
+            href={COMMIT_URL(entry.commit)}
             target="_blank"
             rel="noopener noreferrer"
             className="text-muted-foreground/50 hover:text-muted-foreground shrink-0 font-mono text-xs transition-colors duration-200"

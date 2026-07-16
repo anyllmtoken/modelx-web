@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { ButtonAnchor, ButtonLink } from "@/components/ui/button";
+import { NEW_ISSUE_URL } from "@/lib/config";
 
 export default async function NotFound() {
   const t = await getTranslations("NotFound");
@@ -10,7 +11,7 @@ export default async function NotFound() {
       <div className="mt-6 flex flex-wrap gap-3">
         <ButtonLink href="/">{t("backToHome")}</ButtonLink>
         <ButtonAnchor
-          href="https://gitee.com/fastauth/model-x/issues/new"
+          href={NEW_ISSUE_URL}
           target="_blank"
           rel="noopener noreferrer"
         >
